@@ -82,14 +82,14 @@ const userRoutes = {
     try {
       const { _id, email } = req.auth;
 
-      const user = await User.findOne({ _id: _id }).select("-password");
+      const user = await User.findOne({ _id: _id }, '-password').lean()
       if (user === null) {
         return res.status(400).json({ reason: "user not found" });
       }
 
       return res.status(200).json({ error: false, user });
     } catch (error) {
-      return res.status(400).json({ Error: error.message });
+      return res.status(500).json({ Error: error.message });
     }
   },
 
@@ -99,19 +99,19 @@ const userRoutes = {
       const { id } = req.params
 
       if (!isAdmin) {
-        return res.status(400).json({ reason: "You are not admin" });
+        return res.status(400).json({ reason: "You are not admin" })
       }
 
-      const user = await User.findOne({ _id: id });
+      const user = await User.findOne({ _id: id })
       if (user === null) {
-        return res.status(400).json({ reason: "user not found" });
+        return res.status(400).json({ reason: "user not found" })
       }
 
-      await User.deleteOne({ _id: id});
+      await User.deleteOne({ _id: id})
 
-      return res.status(200).json({ error: false, isDelete: true });
+      return res.status(200).json({ error: false, isDelete: true })
     } catch (error) {
-      return res.status(400).json({ Error: error.message });
+      return res.status(400).json({ Error: error.message })
     }
   },
 };

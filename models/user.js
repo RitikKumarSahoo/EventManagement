@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
 
+  customerStripeId: {
+    type: String
+  },
+
+  vendorStripeId: {
+    type: String
+  },
+
   isAdmin: { type: Boolean }
 });
 
