@@ -21,6 +21,7 @@
     "express-jwt": "^8.5.1",
     "fs": "^0.0.1-security",
     "html-pdf-node": "^1.0.8",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.3",

@@ -17,19 +17,19 @@ const userRoutes = {
           .status(400)
           .json({ error: false, reason: "Field 'password' is required" });
 
-          const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
-          if (password.length < 6) {
-              return res.status(400).json({
-                  error: true,
-                  reason: "Password must be at least 6 characters long",
-              });
-          }
-          if (!specialCharRegex.test(password)) {
-              return res.status(400).json({
-                  error: true,
-                  reason: "Password must contain at least one special symbol (e.g., @, #, $, etc.)",
-              });
-          }
+          // const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+          // if (password.length < 6) {
+          //     return res.status(400).json({
+          //         error: true,
+          //         reason: "Password must be at least 6 characters long",
+          //     });
+          // }
+          // if (!specialCharRegex.test(password)) {
+          //     return res.status(400).json({
+          //         error: true,
+          //         reason: "Password must contain at least one special symbol (e.g., @, #, $, etc.)",
+          //     });
+          // }
 
       const existingEmail = await User.findOne({ email });  
       console.log(existingEmail);

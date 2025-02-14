@@ -1,27 +1,33 @@
 import { User } from '../models/user.js';
 import jwt from 'jsonwebtoken';
+import joi from "joi"
+import authSchema from '../lib/validators.js'
 
 const auth = {
     async login(req, res) {
         try {
             const { email, password } = req.body
 
-            if (email === undefined) {
-                return res.status(400).json({ error: true, reason: "Field 'email' is required" })
-            }
+            // if (email === undefined) {
+            //     return res.status(400).json({ error: true, reason: "Field 'email' is required" })
+            // }
 
-            if (password === undefined) {
-                return res.status(400).json({ error: true, reason: "Field 'password' is required" })
-            }
+            // if (password === undefined) {
+            //     return res.status(400).json({ error: true, reason: "Field 'password' is required" })
+            // }
 
-            const unsupportedDomains = ['yahoo.com', 'outlook.com'];
-            const emailDomain = email.split('@')[1];
-            if (unsupportedDomains.includes(emailDomain)) {
-                return res.status(400).json({
-                    error: true,
-                    reason: `Emails from ${emailDomain} are not supported. Please use a different email provider.`,
-                });
-            }
+            // const unsupportedDomains = ['yahoo.com', 'outlook.com'];
+            // const emailDomain = email.split('@')[1];
+            // if (unsupportedDomains.includes(emailDomain)) {
+            //     return res.status(400).json({
+            //         error: true,
+            //         reason: `Emails from ${emailDomain} are not supported. Please use a different email provider.`,
+            //     });
+            // }
+
+            const { error, value } = await authSchema.validateAsync(req.body)
+
+
 
             const user = await User.findOne({ email: email })
 
@@ -41,13 +47,13 @@ const auth = {
 
 
             const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 3600 * 24 * 30 })
-            
-            return res.status(200).json({error: false, token})
+
+            return res.status(200).json({ error: false, token })
         } catch (error) {
             return res.status(500).json({
                 error: true,
                 reason: error.message,
-              })
+            })
         }
     }
 }

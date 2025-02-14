@@ -41,17 +41,21 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre("save", async function (next) {
   const user = this;
+  console.log("this----",this)
+  
   if (this.isModified("password") || this.isNew) {
     try {
       user.password = await bcrypt.hash(
         user.password,
         +process.env.SALT_ROUNDS || 10
       );
+      console.log("----",user.password);
+      
     } catch (error) {
       return next(error);
     }
   }
-  return next();
+  return next()
 });
 
 // compare two passwords:
@@ -61,9 +65,9 @@ userSchema.methods.comparePassword = async function (pw) {
     if (isMatch === false)
       throw new Error("Please check your credentials and try again");
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 userSchema.set("timestamps", true);
 userSchema.set("toJSON", { virtuals: true });
